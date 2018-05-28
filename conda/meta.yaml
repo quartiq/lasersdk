@@ -9,7 +9,7 @@ source:
 build:
   noarch: python
   number: 1
-  script: pip install toptica_lasersdk-1.1.0-py3-none-any.whl
+  script: pip install --no-deps toptica_lasersdk-1.1.0-py3-none-any.whl
 
 requirements:
   build:
@@ -18,10 +18,14 @@ requirements:
   run:
     - python >=3.5
     - artiq
+    - pyserial
+  entry_points:
+    - aqctl_dlcpro = lasersdk.aqctl_dlcpro:main
 
 test:
   imports:
     - toptica.lasersdk.client
+    - lasersdk.aqctl_dlcpro
 
 about:
   home: https://toptica.github.io/python-lasersdk
