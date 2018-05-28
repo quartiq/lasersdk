@@ -32,7 +32,12 @@ class RPCClient(Client):
 def get_argparser():
     parser = argparse.ArgumentParser(
         description="""Laser SDK client controller.
-        Use this controller for a TOPTICA DLC Pro.""")
+        Use this controller for a TOPTICA DLC Pro.
+
+        This exposes a low-level client (i.e. without knowledge of the
+        parameter tree structure and types) as an ARTIQ device controller.
+        Note: The param_type arguments to the get() method need to be passed as
+        strings, not as types.""")
     parser.add_argument(
         "-d", "--device", default=None,
         help="Device host name or IP address.")
@@ -51,7 +56,7 @@ def main():
         sys.exit(1)
 
     async def run():
-        async with RPCClient(NetworkConnection(args.device)) as dev:
+        async with RPCClient(NetworkConnection(args.device, loop=loop)) as dev:
             server = Server({"laser": dev}, None, True)
             await server.start(bind_address_from_args(args), args.port)
             try:

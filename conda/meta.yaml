@@ -25,7 +25,8 @@ requirements:
 test:
   imports:
     - toptica.lasersdk.client
-    - lasersdk.aqctl_dlcpro
+    - toptica.lasersdk.async.client
+    - lasersdk.aqctl_laser
 
 about:
   home: https://toptica.github.io/python-lasersdk
