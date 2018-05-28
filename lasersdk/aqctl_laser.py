@@ -5,7 +5,7 @@ import logging
 import sys
 import asyncio
 
-from toptica.lasersdk.async.dlcpro.v1_8_1 import DLCpro, NetworkConnection
+from toptica.lasersdk.async.client import Client, NetworkConnection
 
 from artiq.protocols.pc_rpc import Server
 from artiq.tools import (verbosity_args, simple_network_args, init_logger,
@@ -15,14 +15,28 @@ from artiq.tools import (verbosity_args, simple_network_args, init_logger,
 logger = logging.getLogger(__name__)
 
 
+class RPCClient(Client):
+    param_types = {
+            "bool": bool,
+            "str": str,
+            "int": int,
+            "float": float,
+            "bytes": bytes
+    }
+    async def get(self, param_name, *param_types):
+        """Client.get() with parameter types as strings."""
+        return await super().get(param_name,
+                *(self.param_types[typ] for typ in param_types))
+
+
 def get_argparser():
     parser = argparse.ArgumentParser(
-        description="""DLC Pro controller.
+        description="""Laser SDK client controller.
         Use this controller for a TOPTICA DLC Pro.""")
     parser.add_argument(
         "-d", "--device", default=None,
         help="Device host name or IP address.")
-    simple_network_args(parser, 3271)
+    simple_network_args(parser, 3272)
     verbosity_args(parser)
     return parser
 
@@ -37,9 +51,8 @@ def main():
         sys.exit(1)
 
     async def run():
-        async with DLCpro(NetworkConnection(args.device)) as dev:
-            logger.info("connected to %s", await dev.system_label.get())
-            server = Server({"dlcpro": dev}, None, True)
+        async with RPCClient(NetworkConnection(args.device)) as dev:
+            server = Server({"laser": dev}, None, True)
             await server.start(bind_address_from_args(args), args.port)
             try:
                 await server.wait_terminate()
