@@ -1,0 +1,29 @@
+package:
+  name: lasersdk
+  version: "1.1.0"
+
+source:
+  url: https://files.pythonhosted.org/packages/fa/c4/073adac20246588c1b00d6fd98733a13543ccda818a65247fe93c89b254b/toptica_lasersdk-1.1.0-py3-none-any.whl
+  sha256: 5b7ff2cc89e7a17c0b5909630c8f00803d853c582e53b407e71ab7d4d1366d35
+
+build:
+  noarch: python
+  number: 1
+  script: pip install toptica_lasersdk-1.1.0-py3-none-any.whl
+
+requirements:
+  build:
+    - python >=3.5
+    - pip
+  run:
+    - python >=3.5
+    - artiq
+
+test:
+  imports:
+    - toptica.lasersdk.client
+
+about:
+  home: https://toptica.github.io/python-lasersdk
+  license: MIT
+  summary: Control TOPTICA laser products
