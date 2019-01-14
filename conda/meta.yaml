@@ -1,15 +1,15 @@
 package:
   name: lasersdk
-  version: "1.2.0"
+  version: "1.3.1"
 
 source:
-  url: https://files.pythonhosted.org/packages/a6/67/96a792ddbc8b620ea050ef8df9ee8e30a7500dfe9d21b44dbaf7bdec39bd/toptica_lasersdk-1.2.0-py3-none-any.whl
-  sha256: 3ce7c6b69584172fd0738cb53c2c9db2b4432a1df9b328200eb0d7e05b870890
+  url: https://files.pythonhosted.org/packages/f3/ce/8582db25842cb64dec13b8a37b3853242cbca27fc17ac0a2eaa53c001df9/toptica_lasersdk-1.3.1-py3-none-any.whl
+  sha256: fb6af248a9f40213ec10ab5f6f9bf28980b0a5d540b72d53cd25a5495d57e20c
 
 build:
   noarch: python
-  number: 2
-  script: pip install --no-deps toptica_lasersdk-1.2.0-py3-none-any.whl
+  number: 0
+  script: pip install --no-deps toptica_lasersdk-1.3.1-py3-none-any.whl
 
 requirements:
   build:
